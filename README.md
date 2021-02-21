@@ -38,4 +38,4 @@
 	
 	GITHUB: https://github.com/pedrohcf3141/LabEngSof
 	
-	VIDEO ENTREGA 01:
+	VIDEO ENTREGA 01:https://youtu.be/K_D7tFdjlkk
