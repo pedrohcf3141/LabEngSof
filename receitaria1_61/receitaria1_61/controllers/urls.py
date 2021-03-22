@@ -1,15 +1,14 @@
 from typing import Dict
 from flask import (
     Flask, render_template,
-    url_for
+    url_for, request, flash,
+    redirect, session
     )
-app = Flask(__name__)
-app.secret_key = "receitaria"
-
-
+from receitaria1_61 import app
 class Usuarios:
-    def __init__(self, id:int, nome:str, senha:str) -> None:
+    def __init__(self, id:int, apelido: str, nome:str, senha:str) -> None:
         self.id = id
+        self.apelido = apelido
         self.nome = nome
         self.senha = senha
 
@@ -43,15 +42,15 @@ class Receitas:
     def __str__(self) -> str:
         return self.nome
 
-usuario01 = Usuarios(1, 'Pedro Fernandes', 'senha')
-usuario02 = Usuarios(2, 'Irene Moraes', 'senha')
-usuario03 = Usuarios(3, 'Luna Maria', 'luna')
-usuario04 = Usuarios(4, 'Murphy Aparecida', '1234')
+usuario01 = Usuarios(1, 'pedro', 'Pedro Fernandes', 'senha')
+usuario02 = Usuarios(2, 'irene', 'Irene Moraes', 'senha')
+usuario03 = Usuarios(3, 'luna', 'Luna Maria', 'luna')
+usuario04 = Usuarios(4, 'murphy', 'Murphy Aparecida', '1234')
 usuarios = {
-    usuario01.id: usuario01,
-    usuario02.id: usuario02,
-    usuario03.id: usuario03,
-    usuario04.id: usuario04
+    usuario01.apelido: usuario01,
+    usuario02.apelido: usuario02,
+    usuario03.apelido: usuario03,
+    usuario04.apelido: usuario04
 }
 unidade01 = Unidades(1, 'gramas')
 unidade02 = Unidades(2, 'colher(es)')
@@ -84,4 +83,29 @@ lista_receitas = [receita01, receita02, receita03]
 def index():
     return render_template ('index.html', titulo="Receitas", receitas=lista_receitas)
 
-app.run(debug=True)
+@app.route('/login')
+def login():
+    proxima = request.args.get('proxima')
+    return render_template('login.html', titulo="Faça o seu Login", proxima=proxima)
+
+@app.route('/autenticar', methods=['POST',])
+def autenticar():
+    if request.form['usuario'] in usuarios:
+        usuario = usuarios[request.form['usuario']]
+        if usuario.senha == request.form['senha']:
+            session['usuario_logado'] = usuario.id
+            flash(f'{usuario.nome} logou com sucesso!')
+            proxima_pagina = request.form['proxima']
+            return redirect(proxima_pagina)
+        else:
+            flash('Acesso incorreto')
+            return redirect(url_for('login'))
+    else:
+        flash('Não logado, acesso incorreto')
+        return redirect(url_for('login'))
+
+@app.route('/logout')
+def logout():
+    session['usuario_logado'] = None
+    flash('Nenhum usuário logado')
+    return redirect(url_for('login'))
