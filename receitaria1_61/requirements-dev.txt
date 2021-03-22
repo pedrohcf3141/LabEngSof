@@ -1,0 +1,20 @@
+attrs @ file:///home/pedrohcf/.cache/pypoetry/artifacts/b7/28/6f/acdd2c0e759f1cda97abf00db7723a0ffb3a151696d8d96398aea16171/attrs-20.3.0-py2.py3-none-any.whl
+click @ file:///home/pedrohcf/.cache/pypoetry/artifacts/30/bc/bf/e00ffd8f0edf0294942e70e80e42a839bd2649d2c5b864e6389e526d2a/click-7.1.2-py2.py3-none-any.whl
+coverage @ file:///home/pedrohcf/.cache/pypoetry/artifacts/6e/c7/4b/c756f1459f142577ebe548e47ac0b75fa12ef5b2540e38a44c42effa29/coverage-5.5-cp38-cp38-manylinux2010_x86_64.whl
+Flask @ file:///home/pedrohcf/.cache/pypoetry/artifacts/0a/8b/ac/e30b4f067b6a1660b6e04691990900956f4e864868c7fa0f377389f368/Flask-1.1.2-py2.py3-none-any.whl
+Flask-SQLAlchemy @ file:///home/pedrohcf/.cache/pypoetry/artifacts/32/be/a1/8f73762066fcb1b4eb7ef71f39a6521d13f0e21f356ffbccd2b986f4fb/Flask_SQLAlchemy-2.5.1-py2.py3-none-any.whl
+gunicorn @ file:///home/pedrohcf/.cache/pypoetry/artifacts/b5/fa/14/5790a1a5da3a5144bc505c39d8003baa6f64040928b75d0e0779683287/gunicorn-20.0.4-py2.py3-none-any.whl
+itsdangerous @ file:///home/pedrohcf/.cache/pypoetry/artifacts/ed/be/b7/3afa53339fde1838049443e48288a0348e1c636069b0c90f199510d48a/itsdangerous-1.1.0-py2.py3-none-any.whl
+Jinja2 @ file:///home/pedrohcf/.cache/pypoetry/artifacts/1e/19/63/9b4675e143abad59de60e0e667815fd5e19dd0b28fc2815f9f957726d3/Jinja2-2.11.3-py2.py3-none-any.whl
+MarkupSafe @ file:///home/pedrohcf/.cache/pypoetry/artifacts/35/5e/ca/be6dbd0c55edef35786f1f6959189a0bdc523ab487501dbc604366a387/MarkupSafe-1.1.1-cp38-cp38-manylinux2010_x86_64.whl
+more-itertools @ file:///home/pedrohcf/.cache/pypoetry/artifacts/e5/3f/ef/7962cb207c9c377a5e2858c39136056c76582b87e3716935561bdcae94/more_itertools-8.7.0-py3-none-any.whl
+packaging @ file:///home/pedrohcf/.cache/pypoetry/artifacts/69/b5/74/4884010222ec7d09be9bd10d71316b7c49153ef24103605e4a2650af7c/packaging-20.9-py2.py3-none-any.whl
+pluggy @ file:///home/pedrohcf/.cache/pypoetry/artifacts/9c/e5/0b/2d64d03361a081edeb5d2ec5f286ccf9719587781fbf6822e1b6384c27/pluggy-0.13.1-py2.py3-none-any.whl
+py @ file:///home/pedrohcf/.cache/pypoetry/artifacts/6b/b2/2b/e6686e7d0183dbd36bd66921efa3e77ce26260a3671524cd86614290e0/py-1.10.0-py2.py3-none-any.whl
+pyparsing @ file:///home/pedrohcf/.cache/pypoetry/artifacts/da/e7/3d/1780282f558e5fd157bf708b28b8ba0d08323ef6bc5b6396139ce38a0b/pyparsing-2.4.7-py2.py3-none-any.whl
+pytest @ file:///home/pedrohcf/.cache/pypoetry/artifacts/9d/40/6b/50d2cb06df545acea43c65379c5456f4fbc703115a703bc7cd433ddf70/pytest-5.4.3-py3-none-any.whl
+pytest-flask @ file:///home/pedrohcf/.cache/pypoetry/artifacts/25/13/c3/4417400abd695e296fd49b20f829ea6208ab4e9dd4d820c085f666dbe0/pytest_flask-1.2.0-py3-none-any.whl
+receitaria1-61==0.1.0
+SQLAlchemy @ file:///home/pedrohcf/.cache/pypoetry/artifacts/99/a5/2b/beed56a304ae55e55d612d8c50197290632b811372193e01d017cfa2db/SQLAlchemy-1.3.23-cp38-cp38-manylinux2010_x86_64.whl
+wcwidth @ file:///home/pedrohcf/.cache/pypoetry/artifacts/36/68/e2/7232f431072d5e8aeec124120b9a1d095d45da10311d271fac10982473/wcwidth-0.2.5-py2.py3-none-any.whl
+Werkzeug @ file:///home/pedrohcf/.cache/pypoetry/artifacts/71/cb/8f/ea556c118c51e63201517bf1ce46027e851bef2077e67f333349deacf1/Werkzeug-1.0.1-py2.py3-none-any.whl
