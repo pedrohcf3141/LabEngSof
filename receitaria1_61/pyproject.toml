@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "receitaria1.61"
+name = "receitaria1_61"
 version = "0.1.0"
 description = ""
 authors = ["Pedro Henrique Fernandes <pedro.fernandes@znc.com.br>"]
@@ -10,6 +10,7 @@ Flask = "^1.1.2"
 coverage = "^5.5"
 Flask-SQLAlchemy = "^2.5.1"
 gunicorn = "^20.0.4"
+pytest-flask = "^1.2.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
