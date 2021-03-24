@@ -6,6 +6,7 @@
             <th>Nome</th>
             <th>Categoria</th>
             <th>Usuario</th>
+            <th>Visualizar</th>
 
         </tr>
     </thead>
@@ -14,8 +15,10 @@
         <tr>
             <td>{{ receita.nome }}</td>
             <td>{{ receita.categoria }}</td>
-            <td>{{ receita.usuario }}</td>
+            <td>{{ receita.user }}</td>
+            <td><a href="{{url_for('receita', receita_id=receita.id)}}"><button>Visualizar</button></a></td>
         </tr>
+
         {% endfor %}
     </tbody>
 </table>
