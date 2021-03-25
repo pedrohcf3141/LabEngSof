@@ -111,8 +111,8 @@ def auth():
         if user.password == request.form['password']:
             session['user_logado'] = user.id
             flash(f'{user.nome} logou com sucesso!')
-            next_pagina = request.form['next']
-            return redirect(next_pagina)
+            next_page = request.form['next']
+            return redirect(next_page)
         else:
             flash('Acesso incorreto')
             return redirect(url_for('login'))
@@ -120,9 +120,20 @@ def auth():
         flash('Não logado, acesso incorreto')
         return redirect(url_for('login'))
 
-@app.route('/novo')
-def novo():
-    return render_template ('novo.html', titulo="Nova Receita")
+@app.route('/novareceita')
+def novareceita():
+    if 'user_logado' not in session or session['user_logado'] == None:
+        return redirect(url_for('login', next_page=url_for('novareceita')))
+    else:
+        return render_template ('novareceita.html', titulo="Nova Receita")
+
+@app.route('/novoingrediente')
+def novoingrediente():
+    if 'user_logado' not in session or session['user_logado'] == None:
+        return redirect(url_for('login', next_page=url_for('novoingrediente')))
+    else:
+        return render_template ('novoingrediente.html', titulo="Novo Ingrediente")
+
 
 @app.route('/receita/<int:receita_id>')
 def receita(receita_id):
@@ -134,3 +145,4 @@ def logout():
     session['user_logado'] = None
     flash('Nenhum usuário logado')
     return redirect(url_for('login'))
+
