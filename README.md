@@ -56,5 +56,6 @@
 		cd receitaria1_61
 		pythom manage.py runserver
 	
-	video:
+	video: https://youtu.be/F6uWtlAw_qQ
+	
 	
