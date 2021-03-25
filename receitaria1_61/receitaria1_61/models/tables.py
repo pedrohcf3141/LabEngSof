@@ -60,18 +60,20 @@ class IngredientsMesures(db.Model):
     quantitie = db.Column(db.String(50), nullable=False)
 
 
+class Prepare(db.Models):
+    __table__name = 'prepare'
+    id = db.Column(db.Integer, primary_key=True)
+    step = db.Column(db.TextArea, nullable=False)
+
 
 class Recipes (db.Model):
     __table__name = 'recipes'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
-    prepare = db.Column(db.String(50), unique=True, nullable=False)
+    prepare_id = db.Column(db.Integer, db.ForeignKey ('prepare.id', nullable=False))
     user_id = db.Column(db.Integer, db.ForeignKey ('users.id'), nullable=False)
     ingredients_mesures_id = db.relationship('IngredientsMesures', foreign_keys=ingredients_mesures_id)
-
-    name = db.Column(db.String(50), unique=True, nullable=False)
-    name = db.Column(db.String(50), unique=True, nullable=False)
 
     def __init__(self, id, name, prepare, user_id, ingredients_mesures_id):
         self.id = id
