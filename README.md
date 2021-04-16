@@ -39,3 +39,23 @@
 	GITHUB: https://github.com/pedrohcf3141/LabEngSof
 	
 	VIDEO ENTREGA 01:https://youtu.be/K_D7tFdjlkk
+	
+	ENTREGA: 02
+	Ser disponibilizado via link do GitHub OK
+	Conter arquivo com todas as dependências necessárias para "levantar a aplicação" (atentar para os arquivos build.gradle ou requirements.txt conforme você use Java ou Python);OK
+	requirements.txt contido no diretório receitaria1_61
+	
+	Utilizar templates (ex. JSPs ou templates do Jinja) para as interfaces; OK
+	Ter as interfaces acessíveis a partir de rotas (não deve ser possível visualizar um arquivo tal como home.jsp na barra de navegação); OK
+	Conter nas interfaces todos os dados que são esperados (ex. formulários de entrada); OK
+	Conter nas interfaces exemplos de dados de saídas (ex. listagem de itens, nesse caso, valores estáticos que não retornam de banco de dados); OK
+	Esse protótipo não tem ênfase no visual, mas sim na navegabilidade e na coerência dos dados. Além disso, na capacidade de uso da ferramenta de build para obtenção das dependências. OK
+	No arquivo README.MD, documentar o procedimento de build e colocar um link para um vídeo explicativo, no YouTube, onde você "levanta a aplicação" e navega nas interfaces. Explicar adequadamente as rotas. Esse vídeo deve ter duração aproximada máxima de 5 minutos.
+	
+	build:
+		cd receitaria1_61
+		pythom manage.py runserver
+	
+	video: https://youtu.be/F6uWtlAw_qQ
+	
+	
