@@ -109,6 +109,10 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+receitaria1_61/poetry.lock
+receitaria1_61/pyproject.toml
+receitaria1_61/requirements-dev.txt
+receitaria1_61/receitaria1_61/__pycache__
 
 # Spyder project settings
 .spyderproject
@@ -127,3 +131,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
