@@ -46,7 +46,7 @@
 
 	video: https://youtu.be/F6uWtlAw_qQ
 		
-	ENTREGA DADOS USANDO PERCISTÊNCIA
+	ENTREGA 02 DADOS USANDO PERSISTÊNCIA
 	
 	fiz deploy no heroku o senho pode acessar o site abaixo
 	https://receitaria1.herokuapp.com/ingredientes 
