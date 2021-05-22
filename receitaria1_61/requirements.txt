@@ -36,7 +36,11 @@ sqlalchemy==1.4.8
 toml==0.10.2
 werkzeug==1.0.1
 <<<<<<< HEAD
+<<<<<<< HEAD
 wtforms==2.3.3
 =======
 wtforms==2.3.3
 >>>>>>> 43fda57...  Alterções no banco para mysql, Alterções nos modeloes inclusão do gunicorn
+=======
+wtforms==2.3.3
+>>>>>>> d24de32... Deploy heroku e persistencia de dados
