@@ -43,23 +43,10 @@
 	video: https://youtu.be/K_D7tFdjlkk
 	
 	ENTREGA: 01
-<<<<<<< HEAD
-=======
-
 	video: https://youtu.be/F6uWtlAw_qQ
-<<<<<<< HEAD
->>>>>>> d24de32... Deploy heroku e persistencia de dados
 
-	video: https://youtu.be/F6uWtlAw_qQ
-=======
->>>>>>> 4858399... Ajuste no README
-		
-<<<<<<< HEAD
 	ENTREGA 02 DADOS USANDO PERSISTÊNCIA
-=======
-	ENTREGA DADOS USANDO PERCISTÊNCIA
->>>>>>> d24de32... Deploy heroku e persistencia de dados
-	
+
 	fiz deploy no heroku o senho pode acessar o site abaixo
 	https://receitaria1.herokuapp.com/ingredientes 
 	
