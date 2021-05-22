@@ -1,148 +1,158 @@
 from typing import Dict
+from receitaria1_61 import db
 from flask import (
     Flask, render_template,
     url_for, request, flash,
     redirect, session
     )
 from receitaria1_61 import app
+from receitaria1_61.models.tables import (
+    Usuario, ReceitaInstrucao, ReceitaIngrediente,
+    Receita, Ingrediente, Unidade
+)
+from .forms import(
+    UsuarioForm, IngredienteForm,
+    UnidadeForm, ReceitaInstrucaoForm
+)
+from flask_login import login_user, logout_user, current_user, login_required
+from datetime import timedelta
 
+# app.permanent_session_lifetime = timedelta(seconds=1200)
 
-class Usuarios:
-    def __init__(self, id:int, apelido: str, nome:str, password:str) -> None:
-        self.id = id
-        self.apelido = apelido
-        self.nome = nome
-        self.password = password
+@app.login_manager.user_loader
+def load_user(user_id):
+    return Usuario.query.get(int(user_id))
 
-    def __str__(self) -> str:
-        return self.nome
-
-
-class Unidades:
-    def __init__(self, id:int, nome:str,) -> None:
-        self.id = id
-        self.nome = nome
-    def __str__(self) -> str:
-        return self.nome
-
-
-class Ingredientes:
-    def __init__(self, id:int, nome:str,) -> None:
-        self.id = id
-        self.nome = nome
-    def __str__(self) -> str:
-        return self.nome
-
-
-class Receitas:
-    def __init__(self, id:int, nome: str, categoria: str, user: Usuarios, ingredientes: Dict, preparo:str) -> None:
-        self.id = id
-        self.nome = nome
-        self.categoria = categoria
-        self.user = user
-        self.ingredientes = ingredientes
-        self.preparo = preparo
-    def __str__(self) -> str:
-        return self.nome
-
-user01 = Usuarios(1, 'pedro', 'Pedro Fernandes', 'senha')
-user02 = Usuarios(2, 'irene', 'Irene Moraes', 'senha')
-user03 = Usuarios(3, 'luna', 'Luna Maria', 'luna')
-user04 = Usuarios(4, 'murphy', 'Murphy Aparecida', '1234')
-users = {
-    user01.apelido: user01,
-    user02.apelido: user02,
-    user03.apelido: user03,
-    user04.apelido: user04
-}
-unidade01 = Unidades(1, 'gramas')
-unidade02 = Unidades(2, 'colher(es)')
-unidade03 = Unidades(3, 'copo(s)')
-unidade04 = Unidades(4, 'unidade(s)')
-
-lista_unidades = [unidade01, unidade02, unidade03, unidade04]
-
-ingrediente01 = Ingredientes(1, 'farinha')
-ingrediente02 = Ingredientes(2, 'chocolate')
-ingrediente03 = Ingredientes(3, 'leite')
-ingrediente04 = Ingredientes(4, 'cenoura')
-
-lista_ingredientes = [ingrediente01, ingrediente02, ingrediente03, ingrediente04]
-
-ingredientes_bolo_01 = {
-    ingrediente01.nome:('200', unidade01),
-    ingrediente02.nome:('10', unidade02),
-    ingrediente03.nome:('2', unidade03)
-}
-ingredientes_bolo_02 = {
-    ingrediente01.nome:('200', unidade01),
-    ingrediente02.nome:('10', unidade02),
-    ingrediente04.nome:('2', unidade04)
-}
-
-receita01 = Receitas(1, 'bolo_chocolate', 'sobremesa', user01, ingredientes_bolo_01, 'preparo bolo 01 chocolate')
-receita02 = Receitas(2, 'bolo_cenoura', 'sobremesa', user02, ingredientes_bolo_02, 'preparo bolo 02 cenoura')
-receita03 = Receitas(3, 'bolo_chocolate_01', 'sobremesa', user03, ingredientes_bolo_02, 'preparo bolo 03 chocolate tbm porem diferente')
-
-lista_receitas = [receita01, receita02, receita03]
-
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template ('index.html', titulo="Receitas", receitas=lista_receitas)   
+    receitas = Receita.query.all()
+    return render_template("index.html", receitas=receitas) 
 
-@app.route('/login')
+@app.route('/usecreate', methods=['POST', 'GET'])
+def create_user():
+    form = UsuarioForm()
+    if form.validate_on_submit():
+        user = Usuario(username=form.username.data, fullname=form.fullname.data, password=form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Usuário Criado com Sucesso')
+        return redirect(url_for('index'))
+    users_qs = User.query.all()
+    return render_template('create_user.html', titulo="Crie o seu Login", next=next, form=form)
+
+@app.route('/userchange', methods=['POST', 'GET'])
+def change_user():
+    form = UsuarioForm()
+    if form.validate_on_submit():
+        print(form.errors)
+        current_user.username=form.username.data
+        current_user.fullname=form.fullname.data
+        current_user.password=form.password.data
+        db.session.commit()
+        flash('Os dados de sua conta foram atualizados', 'success')
+        return redirect(url_for("index", form=form))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.fullname.data = current_user.fullname
+        form.password.data = current_user.password
+
+    return render_template('change_user.html', titulo="Altere o seu Login", next=next, form=form)
+
+@app.route('/userdelete/<user_id>', methods=['POST', 'GET'])
+def delete_user(user_id):
+    user = Usuario.query.get_or_404(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    flash('Os dados de sua conta foram atualizados', 'success')
+    return redirect(url_for("index"))
+
+@app.route('/login', methods=['POST', 'GET'])
 def login():
-    next = request.args.get('next')
-    return render_template('login.html', titulo="Faça o seu Login", next=next)
+    user_form = UsuarioForm()
+    # next = request.args.get('next')
+    if user_form.validate_on_submit():
+        user = Usuario.query.filter_by(username=user_form.username.data).first()
+        if user and user.password == user_form.password.data:
+            login_user(user)
+            session.permanent = True
+            return redirect(url_for('index'))
+        else:
+            flash('Tente novamente')
+    return render_template('login.html', titulo="Faça o seu Login", user_form=user_form)
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("index"))
 
 @app.route('/ingredientes')
 def ingredientes():
-    return render_template ('ingredientes.html', titulo="Ingredientes Disponiveis", ingredientes=lista_ingredientes)
+    ingredientes = Ingrediente.query.all()
+    return render_template ('ingredientes.html', titulo="Ingredientes Disponiveis", ingredientes=ingredientes)
+
+@app.route('/novoingrediente', methods=['POST', 'GET'])
+def novoingrediente():
+    form = IngredienteForm()
+    ingrediente = Ingrediente(name=form.name.data)
+    if form.validate_on_submit():
+        db.session.add(ingrediente)
+        db.session.commit()
+        flash('Ingrediente Criado com Sucesso')
+        return redirect(url_for('ingredientes'))
+    ingredientes_qs = Ingrediente.query.all()
+    return render_template ('novoingrediente.html', titulo="Novo Ingrediente", form=form)
+
 
 @app.route('/unidades')
 def unidades():
-    return render_template ('unidades.html', titulo="Unidades de Medida", unidades=lista_unidades)
+    unidades = Unidade.query.all()
+    return render_template ('unidades.html', titulo="Unidades de Medida", unidades=unidades)
+
+@app.route('/novaunidade', methods=['POST', 'GET'])
+def novaunidade():
+    form = UnidadeForm()
+    if form.validate_on_submit():
+        unidade = Unidade(name=form.name.data)
+        db.session.add(unidade)
+        db.session.commit()
+        flash('Unidade de Medida Criada com Sucesso')
+        return redirect(url_for('unidades'))
+    ingredientes_qs = Ingrediente.query.all()
+    return render_template ('novaunidade.html', titulo="Nova Unidade de Medida", form=form)
 
 
-@app.route('/auth', methods=['POST',])
-def auth():
-    if request.form['user'] in users:
-        user = users[request.form['user']]
-        if user.password == request.form['password']:
-            session['user_logado'] = user.id
-            flash(f'{user.nome} logou com sucesso!')
-            next_page = request.form['next']
-            return redirect(next_page)
-        else:
-            flash('Acesso incorreto')
-            return redirect(url_for('login'))
-    else:
-        flash('Não logado, acesso incorreto')
-        return redirect(url_for('login'))
-
-@app.route('/novareceita')
-def novareceita():
-    if 'user_logado' not in session or session['user_logado'] == None:
-        return redirect(url_for('login', next_page=url_for('novareceita')))
-    else:
-        return render_template ('novareceita.html', titulo="Nova Receita")
-
-@app.route('/novoingrediente')
-def novoingrediente():
-    if 'user_logado' not in session or session['user_logado'] == None:
-        return redirect(url_for('login', next_page=url_for('novoingrediente')))
-    else:
-        return render_template ('novoingrediente.html', titulo="Novo Ingrediente")
 
 
-@app.route('/receita/<int:receita_id>')
-def receita(receita_id):
-    receita = lista_receitas[receita_id]
-    return render_template ('receita.html', titulo="Receita", receita=receita)
+# @login_required
+# @app.route('/novareceita')
+# def novareceita():
+#     form = ReceitaForm()
+#     if form.validate_on_submit():
+#         user = Usuario(username=form.username.data, fullname=form.fullname.data, password=form.password.data)
+#         db.session.add(user)
+#         db.session.commit()
+#         flash('Usuário Criado com Sucesso')
+#         return redirect(url_for('index'))
+#     users_qs = User.query.all()
+#     return render_template('create_user.html', titulo="Crie o seu Login", next=next, form=form)
+#     return render_template ('novareceita.html', titulo="Nova Receita")
 
-@app.route('/logout')
-def logout():
-    session['user_logado'] = None
-    flash('Nenhum usuário logado')
-    return redirect(url_for('login'))
+#     form = RecipeForm()
+#         ingredients_template_form = RecipeIngredientForm(prefix="ingredients-_-")
+#         instructions_template_form = RecipeInstructionForm(prefix="instructions-_-")
+
+#         return render_template(
+#             "recipes/new.html",
+#             form=form,
+#             _ingredients_template=ingredients_template_form,
+#             _instructions_template=instructions_template_form
+#         )
+
+
+# @app.route('/receita/<int:receita_id>')
+# def receita(receita_id):
+#     receita = lista_receitas[receita_id]
+#     return render_template ('receita.html', titulo="Receita", receita=receita)
+
 

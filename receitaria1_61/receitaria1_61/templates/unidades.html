@@ -9,9 +9,10 @@
     <tbody>
         {% for unidade in unidades %}
         <tr>
-            <td>{{ unidade.nome }}</td>
+            <td>{{ unidade.name }}</td>
         </tr>
         {% endfor %}
     </tbody>
+    <a href="{{url_for('novaunidade')}}"><button>Nova Unidade de Medida</button></a>
 </table>
 {% endblock %}

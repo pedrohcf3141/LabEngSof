@@ -4,8 +4,10 @@
 <form method="POST" action="">
     {{ form.csrf_token }}
     <fieldset>
-            {{form.name}}
-            {{form.submit}}
+        {{ form.username }}
+        {{ form.fullname }}
+        {{ form.password }}
+        {{ form.submit }}
     </fieldset>
 </form>
 {% endblock %}

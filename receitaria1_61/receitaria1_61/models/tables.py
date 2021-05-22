@@ -1,111 +1,92 @@
-from app import db
+from receitaria1_61 import db
 from sqlalchemy import ForeignKey
 from datetime import datetime
 
-class User(db.Model):
-    __table__name = 'users'
+class Usuario(db.Model):
+    __table__name = 'usuario'
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     fullname = db.Column(db.String(120), unique=False, nullable=False)
     password = db.Column(db.String(50), unique=False, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    def __repr__(self):
+        return "<Usuario %r>" % self.id
 
-    def __init__(self, id, username, fullname, password):
-        self.id = id
-        self.username = username
-        self.fullname = fullname
-        self.password = password
+    @property
+    def is_authenticated(self):
+        return True
 
-    def __repr__(self) -> str:
-        return f'<User {self.username}>'
+    @property
+    def is_active(self):
+        return True
 
-    def __str__(self) -> str:
-        return self.username
+    @property
+    def is_anonymous(self):
+        return False
 
-class Measure(db.Model):
-    __table__name = 'mesures'
+    def get_id(self):
+        return str(self.id)
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def __repr__(self) -> str:
-        return f'<Mesure {self.name}>'
-
-    def __str__(self) -> str:
-        return self.name
-
-class Ingredient(db.Model):
-    __table__name = 'ingredients'
+class ReceitaInstrucao(db.Model):
+    __tablename__ = "receita_instrucoes"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def __init__(self, id, name):
-            self.id = id
-            self.name = name
-
-    def __repr__(self) -> str:
-        return f'<Ingredients {self.name}>'
-
-    def __str__(self) -> str:
-        return self.name 
-
-class RecipeIngredientMesure(db.Model):
-    __table__name = 'recipe_ingredients_mesures'
-
-    id = db.Column(db.Integer, primary_key=True)
-    mesure_id = db.Column(db.Integer, db.ForeignKey ('mesure.id'), nullable=False)
-    quantity = db.Column(db.String(50), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    measure_id = db.Column(db.Integer, ForeignKey("measures.id", ondelete="RESTRICT"), nullable=False)
-    ingredient_id = db.Column(db.Integer, ForeignKey("ingredients.id", ondelete="RESTRICT"), nullable=False)
-    recipe_id = db.Column(db.Integer, ForeignKey("recipes.id", ondelete="CASCADE"), nullable=False)
-
-    measure = db.relationship("Measure", backref="recipe_ingredients_mesures")
-    ingredient = db.relationship("Ingredient", backref="recipe_ingredients_mesures")
-
-    def __repr__(self) -> str:
-        return f'<RecipeIngredientMesure {self.id}>'
-
-    def __str__(self) -> str:
-        return self.id 
-
-class Prepare(db.Models):
-    __table__name = 'prepare'
-
-    id = db.Column(db.Integer, primary_key=True)
-    step = db.Column(db.TextArea, nullable=False)
+    step = db.Column(db.Integer, nullable=False)
     instruction = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    recipe_id = db.Column(db.Integer, ForeignKey("recipes.id", ondelete="CASCADE"))
+    receita_id = db.Column(db.Integer, ForeignKey("receitas.id", ondelete="CASCADE"))
 
     def __repr__(self):
-        return f'<Prepare  {self.id}>'
-    
-    def __str__(self) -> str:
-        return self.id 
+        return "<ReceitaInstrucao %r>" % self.id
 
-class Recipe(db.Model):
-    __table__name = 'recipes'
+class ReceitaIngrediente(db.Model):
+    __tablename__ = "receitas_ingredientes"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Text)
-    user_id = db.Column(db.Integer, db.ForeignKey ('users.id'), nullable=False)
-    ingredients = db.relationship("Ingredient", backref="recipes", passive_deletes=True, passive_updates=True)
-    prepare = db.relationship("Prepare", backref="recipes", passive_deletes=True, passive_updates=True)
+    quantity = db.Column(db.Float(), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    unidade_id = db.Column(db.Integer, ForeignKey("unidades.id", ondelete="RESTRICT"), nullable=False)
+    ingrediente_id = db.Column(db.Integer, ForeignKey("ingredientes.id", ondelete="RESTRICT"), nullable=False)
+    receita_id = db.Column(db.Integer, ForeignKey("receitas.id", ondelete="CASCADE"), nullable=False)
 
-    def __init__(self, id, name, prepare, user_id, ingredients_mesures_id):
-        self.id = id
-        self.name = name
-        self.prepare = name
-        self.user_id = user_id
-        self.ingredients_mesures_id = ingredients_mesures_id
+    unidade = db.relationship("Unidade", backref="receitas_ingredientes")
+    ingrediente = db.relationship("Ingrediente", backref="receitas_ingredientes")
 
-    def __repr__(self) -> str:
-        return f'<Recipe {self.name}>'
+    def __repr__(self):
+        return "<ReceitaIngrediente %r>" % self.id
 
-    def __str__(self) -> str:
-        return self.name
+class Receita(db.Model):
+    __tablename__ = "receitas"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    usuario_id = db.Column(db.Integer, ForeignKey("usuario.id", ondelete="RESTRICT"), nullable=False)
+    ingredientes = db.relationship("ReceitaIngrediente", backref="receitas", passive_deletes=True, passive_updates=True)
+    instructions = db.relationship("ReceitaInstrucao", backref="receitas", passive_deletes=True, passive_updates=True)
+
+    def __repr__(self):
+        return "<Receita %r>" % self.id
+
+class Ingrediente(db.Model):
+    __tablename__ = "ingredientes"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return "<Ingrediente %r>" % self.id
+
+class Unidade(db.Model):
+    __tablename__ = "unidades"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return "<Unidade %r>" % self.id

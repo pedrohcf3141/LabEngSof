@@ -1,0 +1,11 @@
+
+<form method="POST" action="">
+    {{ form.csrf_token }}
+    <fieldset>
+        {{ form.username }}
+        {{ form.fullname }}
+        {{ form.password }}
+        {{ form.submit }}
+    </fieldset>
+    <a href="/user/delete/{{ current_user.id }}">Deletar</a>
+</form>
