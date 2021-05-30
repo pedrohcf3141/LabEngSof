@@ -45,7 +45,6 @@
 	ENTREGA: 01
 
 	video: https://youtu.be/F6uWtlAw_qQ
-
 		
 	ENTREGA DADOS USANDO PERCISTÊNCIA
 	
