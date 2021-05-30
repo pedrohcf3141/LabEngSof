@@ -1,1 +1,1 @@
-web: gunicorn app:manage
+web: gunicorn receitaria1_61:app

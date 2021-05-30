@@ -1,4 +1,4 @@
-from receitaria1_61 import db
+from receitaria1_61.db import db
 from sqlalchemy import ForeignKey
 from datetime import datetime
 

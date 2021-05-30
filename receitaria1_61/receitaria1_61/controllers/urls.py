@@ -1,5 +1,5 @@
 from typing import Dict
-from receitaria1_61 import db
+from receitaria1_61.db import db
 from flask import (
     Flask, render_template,
     url_for, request, flash,
