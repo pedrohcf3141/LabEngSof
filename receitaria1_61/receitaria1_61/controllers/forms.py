@@ -91,6 +91,13 @@ class ReceitaIngredienteForm(FlaskForm):
         get_pk=lambda u: u.id,
         get_label=lambda u: u.name
     )
+    receitas = SelectField(u'Receitas')
+    submit = SubmitField('Salvar')
+
+class ReceitaIngredientesInstructionsForm(FlaskForm):
+    ingredientes = FieldList(FormField(ReceitaIngredienteForm), min_entries=1)
+    # instructions = FieldList(FormField(ReceitaInstrucaoForm), min_entries=1)
+    submit = SubmitField('Salvar')
 
 class ReceitaForm(FlaskForm):
     name = StringField(
@@ -100,7 +107,6 @@ class ReceitaForm(FlaskForm):
             Length(min=1, max=20, message= 'Máximo de 20 caracteres.')
             ]
         )
-    ingredients = FieldList(FormField(ReceitaIngredienteForm), min_entries=1)
-    instructions = FieldList(FormField(ReceitaInstrucaoForm), min_entries=1)
+
 
     submit = SubmitField('Salvar')

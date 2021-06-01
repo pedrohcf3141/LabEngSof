@@ -44,11 +44,10 @@
 	
 	ENTREGA: 01
 	video: https://youtu.be/F6uWtlAw_qQ
-
+	
 	ENTREGA 02 DADOS USANDO PERSISTÊNCIA
 
-	fiz deploy no heroku o senho pode acessar o site abaixo
+	fiz deploy no heroku o senhor pode acessar o site abaixo
 	https://receitaria1.herokuapp.com/ingredientes 
 	
 	video: https://youtu.be/TlqEt9UqEtw
-	

@@ -4,22 +4,16 @@
     <thead class="thead-default">
         <tr>
             <th>Nome</th>
-            <th>Categoria</th>
-            <th>Usuario</th>
-            <th>Visualizar</th>
-
         </tr>
     </thead>
     <tbody>
         {% for receita in receitas %}
         <tr>
-            <td>{{ receita.nome }}</td>
-            <td>{{ receita.categoria }}</td>
-            <td>{{ receita.user }}</td>
-            <td><a href="{{url_for('receita', receita_id=receita.id)}}"><button>Visualizar</button></a></td>
+            <td>{{ receita.name }}</td>
         </tr>
 
         {% endfor %}
     </tbody>
+    <a href="{{url_for('nova_receita')}}"><button>Nova Receita</button></a>
 </table>
 {% endblock %}

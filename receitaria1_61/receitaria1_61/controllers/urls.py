@@ -12,7 +12,9 @@ from receitaria1_61.models.tables import (
 )
 from .forms import(
     UsuarioForm, IngredienteForm,
-    UnidadeForm, ReceitaInstrucaoForm
+    UnidadeForm, ReceitaInstrucaoForm,
+    ReceitaIngredienteForm, ReceitaForm,
+    ReceitaIngredientesInstructionsForm
 )
 from flask_login import login_user, logout_user, current_user, login_required
 from datetime import timedelta
@@ -121,38 +123,41 @@ def novaunidade():
     ingredientes_qs = Ingrediente.query.all()
     return render_template ('novaunidade.html', titulo="Nova Unidade de Medida", form=form)
 
+########
+@app.route("/receitas", methods=["GET"])
+def receitas_index():
+    return redirect("/")
 
+@app.route("/novareceita", methods=['POST', 'GET'])
+def nova_receita():
+    form = ReceitaForm()
+    form2 = ReceitaIngredientesInstructionsForm()
+    form3 = ReceitaIngredienteForm()
+    # breakpoint()
+    form3.receitas.choices = [(l.id, l.name) for l in Receita.query.all()]
 
+    if form.validate_on_submit():
+        receita = Receita(name=form.name.data)
+        db.session.add(receita)
+        db.session.commit()
+    if form2.validate_on_submit():
+        for indice in form2.ingredientes.data:
+            ingrediente = ReceitaIngrediente(
+                quantity=indice['quantity'],
+                receita_id=form.receita.data,
+                unidade_id = indice['unidade_id'].id,
+                ingrediente_id = indice['ingrediente'].id
+            )
+        db.session.add(ingrediente)
+        db.session.commit()
 
-# @login_required
-# @app.route('/novareceita')
-# def novareceita():
-#     form = ReceitaForm()
-#     if form.validate_on_submit():
-#         user = Usuario(username=form.username.data, fullname=form.fullname.data, password=form.password.data)
-#         db.session.add(user)
-#         db.session.commit()
-#         flash('Usuário Criado com Sucesso')
-#         return redirect(url_for('index'))
-#     users_qs = User.query.all()
-#     return render_template('create_user.html', titulo="Crie o seu Login", next=next, form=form)
-#     return render_template ('novareceita.html', titulo="Nova Receita")
+        # receita = Receita(name=form.name.data)
+        # db.session.add(receita)
+        # db.session.commit()
+        flash('ReceitaCriada com Sucesso')
+        return redirect(url_for('receitas_index'))
+    receitas_qs = Receita.query.all()
+    return render_template ('novareceita.html', titulo="Nova Receita", form=form, form2=form2, form3=form3)
 
-#     form = RecipeForm()
-#         ingredients_template_form = RecipeIngredientForm(prefix="ingredients-_-")
-#         instructions_template_form = RecipeInstructionForm(prefix="instructions-_-")
-
-#         return render_template(
-#             "recipes/new.html",
-#             form=form,
-#             _ingredients_template=ingredients_template_form,
-#             _instructions_template=instructions_template_form
-#         )
-
-
-# @app.route('/receita/<int:receita_id>')
-# def receita(receita_id):
-#     receita = lista_receitas[receita_id]
-#     return render_template ('receita.html', titulo="Receita", receita=receita)
-
-
+########
+    

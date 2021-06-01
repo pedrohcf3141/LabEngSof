@@ -64,7 +64,6 @@ class Receita(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    usuario_id = db.Column(db.Integer, ForeignKey("usuario.id", ondelete="RESTRICT"), nullable=False)
     ingredientes = db.relationship("ReceitaIngrediente", backref="receitas", passive_deletes=True, passive_updates=True)
     instructions = db.relationship("ReceitaInstrucao", backref="receitas", passive_deletes=True, passive_updates=True)
 
