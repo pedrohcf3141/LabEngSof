@@ -12,35 +12,35 @@ from wtforms.validators import(
     AnyOf, DataRequired, NumberRange
 )
 from receitaria1_61.models.tables import (
-    Usuario, ReceitaInstrucao, ReceitaIngrediente,
+    ReceitaInstrucao, ReceitaIngrediente,
     Receita, Ingrediente, Unidade
 )
 
-class UsuarioForm(FlaskForm):
-    username = StringField(
-        'Username',
-        validators=[
-            DataRequired(message='Um username é exigido'),
-            Length(min=1, max=20, message= 'Máximo de 20 caracteres.')
-            ]
-        )
+# class UsuarioForm(FlaskForm):
+#     username = StringField(
+#         'Username',
+#         validators=[
+#             DataRequired(message='Um username é exigido'),
+#             Length(min=1, max=20, message= 'Máximo de 20 caracteres.')
+#             ]
+#         )
 
-    fullname = StringField(
-        'Fullname',
-        validators=[
-            DataRequired(message='Um nome completo é exigido'),
-            Length(min=1, max=20, message= 'Máximo de 20 caracteres.')
-            ]
-        )
+#     fullname = StringField(
+#         'Fullname',
+#         validators=[
+#             DataRequired(message='Um nome completo é exigido'),
+#             Length(min=1, max=20, message= 'Máximo de 20 caracteres.')
+#             ]
+#         )
 
-    password = PasswordField(
-        'Password',
-        validators=[
-            DataRequired(message='Uma senha é exigida'),
-            Length(min=1, max=20, message= 'Máximo de 20 caracteres.')
-            ]
-        )
-    submit = SubmitField('Salvar')
+#     password = PasswordField(
+#         'Password',
+#         validators=[
+#             DataRequired(message='Uma senha é exigida'),
+#             Length(min=1, max=20, message= 'Máximo de 20 caracteres.')
+#             ]
+#         )
+#     submit = SubmitField('Salvar')
 
 
 class IngredienteForm(FlaskForm):
@@ -91,22 +91,21 @@ class ReceitaIngredienteForm(FlaskForm):
         get_pk=lambda u: u.id,
         get_label=lambda u: u.name
     )
-    receitas = SelectField(u'Receitas')
-    submit = SubmitField('Salvar')
+    submit = SubmitField('Adicinar')
 
 class ReceitaIngredientesInstructionsForm(FlaskForm):
     ingredientes = FieldList(FormField(ReceitaIngredienteForm), min_entries=1)
-    # instructions = FieldList(FormField(ReceitaInstrucaoForm), min_entries=1)
-    submit = SubmitField('Salvar')
+    instructions = FieldList(FormField(ReceitaInstrucaoForm), min_entries=1)
+    submit = SubmitField('Adicinar')
 
 class ReceitaForm(FlaskForm):
     name = StringField(
         'Name',
         validators=[
-            DataRequired(message='Um nome é exigido'),
+            DataRequired(message='Um nome é exigido Caralho'),
             Length(min=1, max=20, message= 'Máximo de 20 caracteres.')
             ]
         )
 
 
-    submit = SubmitField('Salvar')
+    submit = SubmitField('Escolha um nome')

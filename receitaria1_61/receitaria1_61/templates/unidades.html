@@ -10,6 +10,7 @@
         {% for unidade in unidades %}
         <tr>
             <td>{{ unidade.name }}</td>
+            <td><a href='/unidades/{{ unidade.id }}'>Editar</a></td>
         </tr>
         {% endfor %}
     </tbody>

@@ -1,0 +1,13 @@
+
+<form method="POST" action="">
+    {{ form.csrf_token }}
+    <tr>
+        <td>DIGITE O NOVO NOME DO INGREDIENTE</td>
+        
+    </tr>
+    <fieldset>
+        {{ form.name }}
+        {{ form.submit }}
+    </fieldset>
+    <a href='/ingredientes/delete/{{ ingrediente.id }}'>Deletar</a>
+</form>

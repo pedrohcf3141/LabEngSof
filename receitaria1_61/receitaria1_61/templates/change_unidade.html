@@ -1,0 +1,13 @@
+
+<form method="POST" action="">
+    {{ form.csrf_token }}
+    <tr>
+        <td>DIGITE A UNIDADE DE MEDIDA</td>
+        
+    </tr>
+    <fieldset>
+        {{ form.name }}
+        {{ form.submit }}
+    </fieldset>
+    <a href='/unidades/delete/{{ unidade.id }}'>Deletar</a>
+</form>

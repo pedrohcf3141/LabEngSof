@@ -10,6 +10,7 @@
         {% for ingrediente in ingredientes %}
         <tr>
             <td>{{ ingrediente.name }}</td>
+            <td><a href='/ingredientes/{{ ingrediente.id }}'>Editar</a></td>
         </tr>
         {% endfor %}
     </tbody>

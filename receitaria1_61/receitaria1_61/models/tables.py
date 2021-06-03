@@ -2,38 +2,10 @@ from receitaria1_61.db import db
 from sqlalchemy import ForeignKey
 from datetime import datetime
 
-class Usuario(db.Model):
-    __table__name = 'usuario'
-
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True, nullable=False)
-    fullname = db.Column(db.String(120), unique=False, nullable=False)
-    password = db.Column(db.String(50), unique=False, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    
-    def __repr__(self):
-        return "<Usuario %r>" % self.id
-
-    @property
-    def is_authenticated(self):
-        return True
-
-    @property
-    def is_active(self):
-        return True
-
-    @property
-    def is_anonymous(self):
-        return False
-
-    def get_id(self):
-        return str(self.id)
-
 class ReceitaInstrucao(db.Model):
     __tablename__ = "receita_instrucoes"
 
     id = db.Column(db.Integer, primary_key=True)
-    step = db.Column(db.Integer, nullable=False)
     instruction = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     receita_id = db.Column(db.Integer, ForeignKey("receitas.id", ondelete="CASCADE"))
