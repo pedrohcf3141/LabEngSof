@@ -148,5 +148,4 @@ def nova_receita():
         return redirect(url_for('receita', id=receita.id))
     return render_template ('novareceita.html', titulo="Nova Receita", form=form)
 
-########
     
