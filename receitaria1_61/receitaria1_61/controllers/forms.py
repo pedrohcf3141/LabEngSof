@@ -47,7 +47,7 @@ class ReceitaInstrucaoForm(FlaskForm):
             Length(min=1, max=20, message= 'Máximo de 20 caracteres.')
             ]
         )
-    submit = SubmitField('Salvar')
+    submit = SubmitField('Adicinar')
 
 class ReceitaIngredienteForm(FlaskForm):
     quantity = IntegerField("Qtde", validators=[InputRequired("é obrigatório")])
@@ -71,7 +71,7 @@ class ReceitaIngredienteForm(FlaskForm):
 class ReceitaIngredientesInstructionsForm(FlaskForm):
     ingredientes = FieldList(FormField(ReceitaIngredienteForm), min_entries=1)
     instructions = FieldList(FormField(ReceitaInstrucaoForm), min_entries=1)
-    submit = SubmitField('Adicinar')
+    # submit = SubmitField('Adicinar')
 
 
 class ReceitaForm(FlaskForm):

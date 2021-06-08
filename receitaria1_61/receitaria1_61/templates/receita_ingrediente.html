@@ -1,0 +1,30 @@
+
+    <table>
+    <tr>
+        <td>Ingredientes</th>
+    </tr>
+    <tr>
+        <td>Quantidade</td>
+        <td></td>
+        <td>Unidade e Medida</td>
+        <td></td>
+        <td></td>
+        <td>Ingrediente</td>
+    </tr>
+    
+    {% for t in receita_ingredientes_qs %}
+    <tr>
+        <td>{{t.quantity}}</td>
+        <td></td>
+        <td>{{t.unidade.name}}</td>
+        <td></td>
+        <td></td>
+        <td>{{t.ingrediente.name}}</td>
+    </tr>
+    {%endfor%}
+    </table>
+    <form method="POST" action="">
+        {{ form.csrf_token }}
+        <fieldset>
+            {{form.ingredientes}}
+        </fieldset>

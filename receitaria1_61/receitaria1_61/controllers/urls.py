@@ -110,11 +110,12 @@ def delete_unidade(id):
 def receitas_index():
     return redirect("/")
 
-@app.route("/receita/<int:id>", methods=['POST', 'GET'])
-def receita(id):
+@app.route("/receitas/<int:id>", methods=['POST', 'GET'])
+def change_receita(id):
     receita = Receita.query.get_or_404(id)
     form = ReceitaIngredientesInstructionsForm()
-    if form.validate_on_submit():
+    # if form.validate_on_submit():
+    if form.ingredientes.data and form.ingredientes.data[0]['submit'] == True:
         for indice in form.ingredientes.data:
             ingrediente = ReceitaIngrediente(
                 quantity=indice['quantity'],
@@ -124,18 +125,21 @@ def receita(id):
             )
             db.session.add(ingrediente)
             db.session.commit()
-        # for indice in form.instructions.data:
-        #     instruction = ReceitaInstrucao(
-        #         instruction=indice['instruction'],
-        #         receita_id=id,
+            return redirect(url_for('change_receita', id=receita.id))
 
-        #     )
-        #     db.session.add(instruction)
-        #     db.session.commit()
-        
-        return redirect(url_for('receita', id=receita.id))
+    if form.instructions.data and form.instructions.data[0]['submit']== True:
+        for indice in form.instructions.data:
+            instruction = ReceitaInstrucao(
+                instruction=indice['instruction'],
+                receita_id=id,
+
+            )
+            db.session.add(instruction)
+            db.session.commit()
+            return redirect(url_for('change_receita', id=receita.id))
     receita_ingredientes_qs = ReceitaIngrediente.query.filter_by(receita_id=id)
-    return render_template('receita.html', titulo="Receita", receita=receita, form=form, receita_ingredientes_qs=receita_ingredientes_qs)
+    receita_instructions_qs = ReceitaInstrucao.query.filter_by(receita_id=id)
+    return render_template('receita.html', titulo="Receita", receita=receita, form=form, receita_ingredientes_qs=receita_ingredientes_qs, receita_instructions_qs=receita_instructions_qs)
 
 @app.route("/novareceita", methods=['POST', 'GET'])
 def nova_receita():
@@ -148,4 +152,20 @@ def nova_receita():
         return redirect(url_for('receita', id=receita.id))
     return render_template ('novareceita.html', titulo="Nova Receita", form=form)
 
-    
+@app.route("/receitas/ingredientes/<int:id>/delete", methods=['POST', 'GET'])
+def delete_receita_ingrediente(id):
+    receita_ingrediente = ReceitaIngrediente.query.get_or_404(id)
+    receita = Receita.query.get_or_404(receita_ingrediente.receita_id)
+    db.session.delete(receita_ingrediente)
+    db.session.commit()
+    flash('Esse ingrediente foi deletado com sucesso desta receita', 'success')
+    return redirect(url_for('change_receita', id=receita.id))
+
+@app.route("/receitas/instructions/<int:id>/delete", methods=['POST', 'GET'])
+def delete_receita_instrucao(id):
+    receita_instruction = ReceitaInstrucao.query.get_or_404(id)
+    receita = Receita.query.get_or_404(receita_instruction.receita_id)
+    db.session.delete(receita_instruction)
+    db.session.commit()
+    flash('Essa instrução foi deletada com sucesso desta receita', 'success')
+    return redirect(url_for('change_receita', id=receita.id))
