@@ -51,3 +51,36 @@
 	https://receitaria1.herokuapp.com/ingredientes 
 	
 	video: https://youtu.be/TlqEt9UqEtw
+
+	Caso queira fazer o build local 
+	Requisitos:
+	Python 3.8
+	Mysql
+	git
+
+	Primeiros passos:
+	Navegue até a pasta onde quer clonar o projeto pelo terminal
+	execute: git clone git@github.com:pedrohcf3141/LabEngSof.git
+	ou caso não tenha chave ssh configurada na maquina 
+	execute: git clone https://github.com/pedrohcf3141/LabEngSof.git
+
+	va até a pasta receitaria1_61 com o comando:
+	cd receitaria1_61
+
+	execute: pip install -r requirements.txt
+	Segunda etapa:
+	Na pasta receitaria1_61 abra o arquivo config.py onde encontrará:
+	a constante ENV ='prod' mude para ENV ='dev'
+	na linha 5 onde está  SQLALCHEMY_DATABASE_URI ='mysql+pymysql://<Altere para seu usuario>:<Altere para sua senha>@localhost/receitaria'
+	altere o usuário e a senha para as credenciais do seu banco Mysql
+	Crie um schema em seu banco no qual inseriu as credenciais, utilize o nome de receitaria.
+
+
+	Terceira etapa(popular o schema com tables e column):
+	Na pasta raiz execute o comando: python manage.py db stamp head
+	e depois: python manage.py db migrate
+	e por fim: python manage.py db upgrade
+
+	Etapa final:
+	Execute: python manage.py runserver
+	Após isso navegue até o localhost pelo navegador na página index: http://localhost:5000/

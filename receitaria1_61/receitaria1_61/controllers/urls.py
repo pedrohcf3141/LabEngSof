@@ -149,7 +149,7 @@ def nova_receita():
         db.session.add(receita)
         db.session.commit()
         flash('ReceitaCriada com Sucesso')
-        return redirect(url_for('receita', id=receita.id))
+        return redirect(url_for('change_receita', id=receita.id))
     return render_template ('novareceita.html', titulo="Nova Receita", form=form)
 
 @app.route("/receitas/ingredientes/<int:id>/delete", methods=['POST', 'GET'])

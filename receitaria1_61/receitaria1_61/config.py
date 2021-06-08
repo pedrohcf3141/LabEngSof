@@ -5,7 +5,7 @@ if ENV == 'dev':
     SQLALCHEMY_DATABASE_URI ='mysql+pymysql://newuser:password@localhost/receitaria'
 else:
     DEBUG = False
-    DATABASE_URL='postgres://xfvzhhpmjbyrpi:b9b5fc657feb67ea6a033431f17629632e7148ea9536d90452298a305cd743d0@ec2-54-243-92-68.compute-1.amazonaws.com:5432/da4c7l8pb3kae9'
+    DATABASE_URL='postgres://lmlplfveounlkm:2b5c108b51e365ee3cc4dbcf5505f6d4d09775f6d9351b616e334a072dc5f621@ec2-54-145-224-156.compute-1.amazonaws.com:5432/d1a4t79ulmm07e'
     SQLALCHEMY_DATABASE_URI = DATABASE_URL.replace("://", "ql://", 1)
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
